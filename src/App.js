@@ -10,11 +10,28 @@ function App() {
   };
 
   const addNewTask = () => {
-    if(todoText !== ''){
+    if(todoText !== '') {
     const newTodos = [...incompleteTodos, todoText]
     setIncompleteTodos(newTodos);
     setTodoText('');
   }};
+
+  const deleteTask = (index) => {
+    const deletedTask = [...incompleteTodos];
+    // setIncompleteTodos(deletedTask.splice(index, 1)) なんでうごかない？
+    deletedTask.splice(index, 1);
+    setIncompleteTodos(deletedTask);
+  }
+
+  const completeTask = (index) => {
+    const newDeletedTask = [...incompleteTodos];
+    newDeletedTask.splice(index, 1);
+
+    const newCompleteTask = [...completeTodos, incompleteTodos[index]];
+    setIncompleteTodos(newDeletedTask);
+    setCompleteTodos(newCompleteTask);
+    // alert(index)
+  }
 
   return (
     <>
@@ -26,13 +43,13 @@ function App() {
     <div className="incomplete-area">
       <p className="title">未完了リスト</p>
       <ul>
-      {incompleteTodos.map((todo) => {
+      {incompleteTodos.map((todo, index) => {
         return(
           <li key={todo}>
           <div className="list-row">
           <p>{todo}</p>
-          <button className="button">編集</button>
-          <button className="button">完了</button>
+          <button className="button" onClick={() => deleteTask(index)}>削除</button>
+          <button className="button" onClick={() => completeTask(index)}>完了</button>
           </div>
         </li>
         );
