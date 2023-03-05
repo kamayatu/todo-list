@@ -1,0 +1,50 @@
+
+.input-area {
+  background-color: azure;
+  width: 400px;
+  height: 30px;
+  border-radius: 10px;
+  margin: 8px;
+  padding: 8px;
+}
+
+.incomplete-area {
+  background-color: beige;
+  width: 400px;
+  min-height: 100px;
+  margin: 8px;
+  padding: 8px;
+}
+
+.complete-area {
+  background-color: bisque;
+  min-height: 100px;
+  width: 400px;
+  padding: 8px;
+  margin: 8px;
+}
+
+
+
+.title {
+  font-weight: bold;
+  text-align: center;
+}
+
+.button {
+  border-radius: 16px;
+  border: none;
+  padding: 6px 16px;
+  outline: none;
+  margin-left: 4px;
+}
+
+.button:hover {
+  background-color: deeppink;
+  cursor: pointer;
+}
+
+.list-row {
+  display: flex;
+  align-items: center;
+}
