@@ -1,13 +1,37 @@
 import React, { useState } from 'react';
 import "./style.css"
 function App() {
-  const [incompleteTodos, setIncompleteTodos] = useState(['ああああ','いいいい']);
-  const [completeTodos, setCompleteTodos] = useState(['うううう']);
+  const [incompleteTodos, setIncompleteTodos] = useState([]);
+  const [completeTodos, setCompleteTodos] = useState([]);
   const [todoText, setTodoText] = useState('');
+  const [editText, setEditText] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [index, setIndex] = useState(0);
 
   const onChangeTodoText = (event) => {
     setTodoText(event.target.value)
   };
+
+  const onChangeEdit = (event) => {
+    setEditText(event.target.value)
+  };
+
+  const onClickEdit = (todo, index) => {
+    setIsEditing(true);
+    setEditText(todo);
+    setIndex(index)
+    }
+
+  const onClickEditButton = () => {
+    const newTodos = [...incompleteTodos, editText];
+    newTodos.splice(index, 1)
+    setIncompleteTodos(newTodos);
+    onClickEditBack();
+  }
+
+  const onClickEditBack = () => {
+    setIsEditing(false);
+  }
 
   const addNewTask = () => {
     if(todoText !== '') {
@@ -33,16 +57,39 @@ function App() {
     // alert(index)
   }
 
+    const onClickBack = (index) => {
+      const deleteComplete = [...completeTodos];
+      deleteComplete.splice(index, 1);
+
+      const newIncomplete = [...incompleteTodos, completeTodos[index]];
+      setIncompleteTodos(newIncomplete);
+      setCompleteTodos(deleteComplete);
+    }
+
+
   return (
     <>
-    <div className="input-area">
+    <div className="input-area"> 
+    
+      {isEditing? (
+        <>
+      <input value={editText} onChange={onChangeEdit} placeholder="編集入力" />
+      <button className="button" onClick={onClickEditButton}>編集</button>
+      <button className="button" onClick={onClickEditBack}>キャンセル</button>
+      </>
+      ) : (
+        <>
       <input value={todoText} onChange={onChangeTodoText} placeholder="todoを入力" />
       <button className="button" onClick={addNewTask}>追加</button>
+        </>
+      )}
+
+
     </div>
 
     <div className="incomplete-area">
       <p className="title">未完了リスト</p>
-      <ul>
+      <ol>
       {incompleteTodos.map((todo, index) => {
         return(
           <li key={todo}>
@@ -50,26 +97,27 @@ function App() {
           <p>{todo}</p>
           <button className="button" onClick={() => deleteTask(index)}>削除</button>
           <button className="button" onClick={() => completeTask(index)}>完了</button>
+          <button className="button" onClick={() => onClickEdit(todo, index)}>編集</button>
           </div>
         </li>
         );
       })}       
-      </ul>
+      </ol>
     </div>
     <div className="complete-area">
       <p className="title">完了リスト</p>
-      <ul>
-        {completeTodos.map((todo) => {
+      <ol>
+        {completeTodos.map((todo, index) => {
           return(
             <li key={todo}>
             <div className="list-row">
             <p>{todo}</p>
-            <button className="button">戻す</button>
+            <button className="button" onClick={() => onClickBack(index)}>戻す</button>
             </div>
           </li>
           );
         })}
-      </ul>
+      </ol>
     </div>
     </>
   );
