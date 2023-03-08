@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "./style.css"
+import {InputTodo} from './components/InputTodo'
 function App() {
   const [incompleteTodos, setIncompleteTodos] = useState([]);
   const [completeTodos, setCompleteTodos] = useState([]);
@@ -69,23 +70,7 @@ function App() {
 
   return (
     <>
-    <div className="input-area"> 
-    
-      {isEditing? (
-        <>
-      <input value={editText} onChange={onChangeEdit} placeholder="編集入力" />
-      <button className="button" onClick={onClickEditButton}>編集</button>
-      <button className="button" onClick={onClickEditBack}>キャンセル</button>
-      </>
-      ) : (
-        <>
-      <input value={todoText} onChange={onChangeTodoText} placeholder="todoを入力" />
-      <button className="button" onClick={addNewTask}>追加</button>
-        </>
-      )}
-
-
-    </div>
+    <InputTodo todoText={todoText} editText={editText} isEditing={isEditing} onEdit={onChangeEdit} onClickEdit={onClickEditButton} onClickEditBack={onClickEditBack} onChangeTodo={onChangeTodoText} addNewTask={addNewTask}/>
 
     <div className="incomplete-area">
       <p className="title">未完了リスト</p>
